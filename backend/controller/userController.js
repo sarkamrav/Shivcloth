@@ -13,7 +13,7 @@ const authUser = asyncHandler(async(req,res)=>{
             isAdmin:user.isAdmin,
             token:generateToken(user._id),
         })
-    } else{
+    } else {
         res.status(401).json("Password dosen't match");
     }
 });
@@ -44,15 +44,18 @@ const getUserProfile = asyncHandler(async(req,res)=>{
 
 const registerUser = asyncHandler(async(req,res)=>{
     const {name,email,password} = req.body;
+    console.log("req.body",req.body)
      const userExist = await User.findOne({email:email});
    if(userExist){
      res.status(400).json("User Exist");
    }
+   console.log("guuu")
       const user = await User.create({
            name,
-           password,
-           email
+           email,
+           password  
        })
+       console.log("user",user);
    if(user){
     res.status(201).json({
         id:user._id,
