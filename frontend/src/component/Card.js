@@ -8,6 +8,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { CenterFocusStrong } from '@material-ui/icons';
+import UserRating from '../common/rating'
 import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles({
@@ -34,7 +35,7 @@ const useStyles = makeStyles({
 const CardList = (props) => {
   const classes = useStyles();
   console.log("ccccc",props);
-const {data:{name,image,description}} = props;
+const {data:{name,image,description,rating}} = props;
   return (
     <Card className={classes.root}>
       <CardActionArea>
@@ -47,6 +48,10 @@ const {data:{name,image,description}} = props;
           <Typography gutterBottom variant="h5" component="h2">
           {name}
           </Typography>
+          {/* <Typography gutterBottom variant="h5" component="h2">
+          <UserRating value ={rating} />
+          </Typography> */}
+         
           <Typography variant="body2" color="textSecondary" component="p">
             {description}
           </Typography>

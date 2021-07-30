@@ -4,6 +4,7 @@ import {BrowserRouter as Router,Route, Link,Switch } from 'react-router-dom'
 import Header from './component/Header'
 import Home from './component/Home'
 import PDP from './component/PDP'
+import Cart from './component/Cart'
 import LoginComponent from './component/Login';
 function App() {
   return (  
@@ -12,6 +13,7 @@ function App() {
       <Switch>
       <Route path = '/' component ={Home} exact/>
       <Route path = '/product/:id' component ={PDP} exact/>
+      <Route path = '/cart/:id' component ={Cart} exact/>
       </Switch>
       <LoginComponent />
     </div>
@@ -19,3 +21,4 @@ function App() {
 }
 
 export default App;
+
