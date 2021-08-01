@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import productRoute from './routes/productRoutes.js'
 import userRoute from './routes/userRoutes.js'
+import {createProxyMiddleware} from 'http-proxy-middleware';
 
 const app = express();
 app.use(express.json()); /* post data reteriving */
@@ -11,6 +12,12 @@ dotenv.config();
 connectDB();
 
 
+
+
+// app.use("/api/**", createProxyMiddleware({ // https://github.com/chimurai/http-proxy-middleware
+//     target: "http://localhost:5000",
+//     chnageOrigin: true
+//   }));
 
 
 app.use('/api/products/',productRoute)

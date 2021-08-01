@@ -34,13 +34,14 @@ const Home =()=>{
    dispatch(fetchProduct());
   }, [dispatch]);
 
-  const productData = useSelector(state => state.productReducer);
-  console.log("productData",productData);
+  const productData = useSelector(state => state.productListReducer);
+  const {products } = productData;
+  console.log("products",products);
   return(
   <>
            <Loader/>
            <Grid container>
-                {product && product.map(data=>{
+                {products && products.map(data=>{
                                 return (
                                     <>
                 <Grid  item lg={3}>

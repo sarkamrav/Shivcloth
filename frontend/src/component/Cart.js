@@ -1,10 +1,12 @@
-import React,{useState} from 'react'
-import products from '../products'
+import React,{useState,useEffect} from 'react'
+// import products from '../products'
+import {useSelector,useDispatch} from 'react-redux';
 import Grid from '@material-ui/core/Grid';
 import DeleteIcon from '@material-ui/icons/Delete';
 import {Card,CardMedia,ListItem,List,ListItemText,Typography,Divider,Button,Select,MenuItem} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-
+import { combineReducers } from 'redux';
+import {addToCart} from '../actions/cartAction'
 const useStyles = makeStyles((theme) => ({
     container: {
       display: 'grid',
@@ -18,32 +20,27 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const Cart = ()=> {
+const Cart = (props)=> {
     const classes = useStyles();
-    const [cartItems] =useState([
-        {
-          _id: '1',
-          name: 'Airpods Wireless Bluetooth Headphones',
-          image: '/images/airpods.jpg',
-          description:
-            'Bluetooth technology lets you connect it with compatible devices wirelessly High-quality AAC audio offers immersive listening experience Built-in microphone allows you to take calls while working',
-          brand: 'Apple',
-          category: 'Electronics',
-          price: 89.99,
-          countInStock: 10,
-          rating: 4.5,
-          numReviews: 12,
-        },
-        ])
-    console.log("props.params",location.search.split('=')[1]);
+    const dispatch = useDispatch();
+    const id = props.match.params.id;
+    const quantity = location.search.split('=')[1];
+
+    useEffect(()=>{
+        dispatch(addToCart(id,quantity))
+    },[dispatch,id,quantity])
+
+      const cartItems = useSelector(state=>state.cartReducer.cartItems);
+      console.log("cartItems",cartItems);
+    //   const{name,image,quantity} = cartItems
     return (
         <div>
-            <Grid container spacing ={3}>
+               <Grid container spacing ={3}>
                 <Grid items lg ={8}>
                 <Grid container >
                
-                    {cartItems.map(cartdata =>{
-                    return   (  
+                {cartItems &&  (cartItems.length>0) && cartItems.map(cartdata=>{
+                    return (  
                         <>  
                          <List>
                          <ListItem>
@@ -75,7 +72,7 @@ const Cart = ()=> {
 <Grid item lg ={3}>
             
             <ListItemText>
-            <Select >
+            <Select  value ={cartdata.quantity}>
       {[...Array(cartdata.countInStock).keys()].map(data=><MenuItem  value={data+1}>{data+1}</MenuItem>)}
       </Select>
             </ListItemText>
@@ -92,18 +89,26 @@ const Cart = ()=> {
     
 
 </Grid>
+
                            </ListItem>
+                           <Divider variant="middle" component="h1" />
                            </List>
                            </>
                       )
                     })}
+                    
                         
                          </Grid>
+                         
                 </Grid>
+             
                 <Grid items lg ={4}>
-                    <h1>ssss</h1>
+                    {/* <h1>ssss</h1> */}
                 </Grid>
-            </Grid>
+            </Grid> 
+          
+            
+           
         </div>
     )
 }

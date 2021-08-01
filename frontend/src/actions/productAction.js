@@ -1,10 +1,20 @@
-import {PRODUCT_LIST_REQUEST,PRODUCT_LIST_SUCCESS,PRODUCT_LIST_ERROR} from '../constants/productReducerConstant'
+import productReducerConstant  from '../constants/productReducerConstant'
 
 export const fetchProduct =()=>({
-    type:'PRODUCT_LIST',
+    type:productReducerConstant.PRODUCT_LIST_REQUEST,
 });
 
 export const fetchProductList =(payload)=>({
-    type:'PRODUCT_LIST_SUCCESS',
-    payload:payload
+    type:productReducerConstant.PRODUCT_LIST_SUCCESS,
+    payload:payload.data
+})
+
+export const requestproductById =(payload)=>({
+    type:productReducerConstant.PRODUCT_FETCH_REQUEST,
+    payload
+})
+
+export const fetchProductById =(payload)=>({
+    type:productReducerConstant.PRODUCT_FETCH_SUCCESS,
+    payload:payload.data
 })

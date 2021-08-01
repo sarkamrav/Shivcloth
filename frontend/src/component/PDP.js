@@ -1,15 +1,23 @@
-import React,{useState} from 'react';
-import products from '../products';
+import React,{useState,useEffect} from 'react';
+import {useSelector,useDispatch} from 'react-redux';
 import Grid from '@material-ui/core/Grid';
 import {Card,CardMedia,ListItem,List,ListItemText,Typography,Divider,Button,Select,MenuItem} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import UserRating from '../common/rating'
+import {requestproductById} from '../actions/productAction'
 const PDP=(props)=>{
+  const dispatch = useDispatch();
     console.log("props",props.match.params.id)
-    const filtereddata =  products && products.filter(data => data._id === props.match.params.id);
-    console.log("filtereddata",filtereddata[0].image);
-    const {name,description,price,countInStock,rating}= filtereddata[0];
+    useEffect(() => {
+      dispatch(requestproductById(props.match.params.id))
+    }, [props.match.params.id])
+    
+    const productDetail = useSelector(state =>state.productReducer)
+    const {product} = productDetail;
+console.log("product",product);
 
+    const {name,description,price,countInStock,rating,image}= product;
+console.log("description",description);
     const [qty, setqty] =useState(1)
 
     const handleChange = (event) => {
@@ -19,15 +27,6 @@ const PDP=(props)=>{
     const addToCart =() =>{
       props.history.push(`/cart/${props.match.params.id}?qty=${qty}`)
     }
-//     brand: "Amazon"
-// category: "Electronics"
-// countInStock: 0
-// description: "Meet Echo Dot - Our most popular smart speaker with a fabric design. It is our most compact smart speaker that fits perfectly into small space"
-// image: "/images/alexa.jpg"
-// name: "Amazon Echo Dot 3rd Generation"
-// numReviews: 12
-// price: 29.99
-// rating: 4
 
     const useStyles = makeStyles((theme) => ({
         container: {
@@ -44,12 +43,7 @@ return(
 <Grid container spacing ={3}>
     <Grid item lg ={6} >
     <Card >
-        {/* <CardMedia
-        //   className={classes.media}
-          image= {filtereddata[0].image}
-          title="Contemplative Reptile"
-        /> */}
-        <img src ={filtereddata[0].image} />
+        <img src ={image} />
      </Card>
     </Grid>
     <Grid item lg ={3} >
